@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "burning=false,facing=north": { "model": "simplefurnace:simple_furnace"},
+        "burning=false,facing=east": { "model": "simplefurnace:simple_furnace", "y": 90},
+        "burning=false,facing=south": { "model": "simplefurnace:simple_furnace", "y": 180},
+        "burning=false,facing=west": { "model": "simplefurnace:simple_furnace", "y": 270},
+        "burning=true,facing=north": { "model": "simplefurnace:lit_simple_furnace"},
+        "burning=true,facing=east": { "model": "simplefurnace:lit_simple_furnace", "y": 90},
+        "burning=true,facing=south": { "model": "simplefurnace:lit_simple_furnace", "y": 180},
+        "burning=true,facing=west": { "model": "simplefurnace:lit_simple_furnace", "y": 270}
+    }
+}

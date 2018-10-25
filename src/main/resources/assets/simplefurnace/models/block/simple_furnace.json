@@ -1,0 +1,12 @@
+{
+   "parent": "block/orientable",
+   "textures": {
+       "particle": "simplefurnace:blocks/simple_furnace_front_off",
+       "up": "simplefurnace:blocks/simple_furnace_top",
+       "down": "simplefurnace:blocks/simple_furnace_top",
+       "north": "simplefurnace:blocks/simple_furnace_front_off",
+       "east": "simplefurnace:blocks/simple_furnace_side",
+       "south": "simplefurnace:blocks/simple_furnace_side",
+       "west": "simplefurnace:blocks/simple_furnace_side"
+   }
+}

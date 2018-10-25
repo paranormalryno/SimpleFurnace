@@ -1,0 +1,16 @@
+[
+{
+  "modid": "simplefurnace",
+  "name": "Simple Furnace",
+  "description": "A mod that add a simple furnace",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["ParanormalRyno"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

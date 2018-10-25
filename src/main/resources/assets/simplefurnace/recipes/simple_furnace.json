@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    
+    "ingredients":
+    [
+        {"item": "minecraft:furnace"},
+        {"item": "minecraft:furnace"}
+    ],
+    
+    "result":
+    {
+        "item": "simplefurnace:simple_furnace",
+        "count": 1
+    }
+}
