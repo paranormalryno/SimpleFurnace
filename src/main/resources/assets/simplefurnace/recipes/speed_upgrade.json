@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "BBB",
+        "B#B",
+        "BBB"
+    ],
+    
+    "key":
+    {
+        "B":
+        {
+            "item": "minecraft:sugar"
+        },
+        "#":
+        {
+        	"item": "minecraft:iron_ingot"
+        }
+    },
+    
+    "result":
+    {
+        "item": "simplefurnace:speed_upgrade",
+        "count": 1
+    }
+}
