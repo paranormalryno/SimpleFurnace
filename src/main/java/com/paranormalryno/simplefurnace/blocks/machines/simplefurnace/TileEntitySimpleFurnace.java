@@ -1,12 +1,16 @@
 package com.paranormalryno.simplefurnace.blocks.machines.simplefurnace;
 
+import com.paranormalryno.simplefurnace.init.ModItems;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.inventory.SlotFurnaceFuel;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemHoe;
@@ -16,6 +20,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
@@ -26,7 +31,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntitySimpleFurnace extends TileEntity implements IInventory, ITickable {
+public class TileEntitySimpleFurnace extends TileEntity implements IInventory, ITickable, ISidedInventory {
+
+	private static final int[] SLOTS_TOP = new int[] {0,1};
+	private static final int[] SLOTS_BOTTOM = new int[] {3,4};
+	private static final int[] SLOTS_SIDES = new int[] {2};
 	
 	private NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(6, ItemStack.EMPTY);
 	private String customName;
@@ -169,8 +178,7 @@ public class TileEntitySimpleFurnace extends TileEntity implements IInventory, I
 							Item item = fuel.getItem();
 							fuel.shrink(1);
 						
-							if(fuel.isEmpty())
-							{
+							if(fuel.isEmpty()) {
 								ItemStack item1 = item.getContainerItem(fuel);
 								this.inventory.set(2, item1);
 							}
@@ -186,7 +194,6 @@ public class TileEntitySimpleFurnace extends TileEntity implements IInventory, I
 						this.totalCookTime = this.getCookTime((ItemStack)this.inventory.get(0));
 						this.smeltItem(0, 3);
 						flag1 = true;
-						
 					}
 				} else {
 					this.cookTime = 0;
@@ -220,6 +227,10 @@ public class TileEntitySimpleFurnace extends TileEntity implements IInventory, I
 	}
 	
 	public int getCookTime(ItemStack input1) {
+		if(inventory.get(5).getItem() == ModItems.SPEED_UPGRADE) {
+			int speed = this.inventory.get(5).getCount();
+			return 200 - (speed * 40);
+		}
 		return 200;
 	}
 	
@@ -254,12 +265,10 @@ public class TileEntitySimpleFurnace extends TileEntity implements IInventory, I
 	@SuppressWarnings("deprecation")
 	public static int getItemBurnTime(ItemStack fuel) {
 		if(fuel.isEmpty()) return 0;
-		else 
-		{
+		else {
 			Item item = fuel.getItem();
 
-			if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.AIR) 
-			{
+			if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.AIR) {
 				Block block = Block.getBlockFromItem(item);
 
 				if (block == Blocks.WOODEN_SLAB) return 150;
@@ -354,5 +363,46 @@ public class TileEntitySimpleFurnace extends TileEntity implements IInventory, I
 	@Override
 	public void clear() {
 		this.inventory.clear();
+	}
+	
+	public boolean isItemValid(int index, ItemStack stack) {
+		if(index == 3 || index == 4 || index == 5) {
+			return false;
+		} else if(index == 0 || index == 1) {
+			return true;
+		} else {
+			ItemStack itemstack = this.inventory.get(1);
+            return isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && itemstack.getItem() != Items.BUCKET;
+		}
+	}
+
+	@Override
+	public int[] getSlotsForFace(EnumFacing side) {
+		if (side == EnumFacing.DOWN)
+        {
+            return SLOTS_BOTTOM;
+        }
+        else
+        {
+            return side == EnumFacing.UP ? SLOTS_TOP : SLOTS_SIDES;
+        }
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack stack, EnumFacing direction) {
+		return this.isItemValidForSlot(index, stack);
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+		if (direction == EnumFacing.DOWN && index == 1) {
+            Item item = stack.getItem();
+
+            if (item != Items.WATER_BUCKET && item != Items.BUCKET) {
+                return false;
+            }
+        }
+
+        return true;
 	}
 }

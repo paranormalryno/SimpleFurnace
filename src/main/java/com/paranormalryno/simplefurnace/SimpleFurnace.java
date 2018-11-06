@@ -3,9 +3,11 @@ package com.paranormalryno.simplefurnace;
 import org.apache.logging.log4j.Logger;
 
 import com.paranormalryno.simplefurnace.proxy.CommonProxy;
+import com.paranormalryno.simplefurnace.tabs.SimpleFurnaceTab;
 import com.paranormalryno.simplefurnace.util.Reference;
 import com.paranormalryno.simplefurnace.util.handlers.RegistryHandler;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -24,6 +26,8 @@ public class SimpleFurnace {
 	public static CommonProxy proxy;
 	
     public static Logger logger;
+    
+    public static CreativeTabs tabSimpleFurnace = new SimpleFurnaceTab(CreativeTabs.getNextID(), "simple_furnace");
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
